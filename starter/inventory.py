@@ -88,6 +88,29 @@ def validate_line(line):
 
     return False
 
+# Testing functions with the data file:
+#filepath = "data/athletic_transactions.txt"
+#
+#lines = read_batch_file(filepath)
+#
+#valid_count = 0
+#invalid_count = 0
+#
+#for row_number, line in enumerate(lines, start=1):
+#    result = validate_line(line)
+#
+#    if result:
+#        valid_count += 1
+#        print("Row", row_number, "| True |", line.strip())
+#    else:
+#        invalid_count += 1
+#        print("Row", row_number, "| False |", line.strip())
+#
+#print("\nSUMMARY")
+#print("Valid transactions:", valid_count)
+#print("Invalid transactions:", invalid_count)
+#print("Total transactions:", len(lines))
+
 
 def process_transactions(lines):
     """TODO: write your own docstring."""
