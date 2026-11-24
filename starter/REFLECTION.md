@@ -33,9 +33,9 @@
 > `data/SOURCE.md` for the full list of edge-case types. You need at
 > least 3 different types.
 
-1. _TODO_
-2. _TODO_
-3. _TODO_
+1. Edge Case #1 Blank Lines: Row 25 & 95, my code handles blank lines by marking them "False" it skips the line doesnt fix it.
+2. Edge Case #3 ADD quantity that isn't a number: Row 147 & 155, my code catches the ValueError and marks them "False" it also skips the lines.
+3. Edge Case #10 REMOVE with no quantity field: Row 374, this line fails field-count check and the code marks it "False" skipping the line.
 
 ## Function scope
 
