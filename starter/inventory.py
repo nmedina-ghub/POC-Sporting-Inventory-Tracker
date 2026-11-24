@@ -11,26 +11,18 @@ Before your final push you'll rename this folder to analysis/.
 """
 import json
 
+class SportsInventoryItem:
+    """Represents one item in a sporting goods inventory. Tracks the product name, quantity, category, and low-stock limit."""
 
-class YourInventoryItem:
-    """
-    TODO: rename this class to something that fits your scenario, and
-    write a real docstring. What does one of these represent? At minimum
-    you'll need a name and a quantity. Add what your stakeholder asked
-    for, not more and not less.
-    """
-
-    def __init__(self):
-        # TODO: add your own parameters (self, plus each attribute you're
-        # tracking) and store each one as self.whatever = whatever.
-        pass
+    def __init__(self, name, quantity, category, low_stock_limit):
+        self.name = name
+        self.quantity = quantity
+        self.category = category
+        self.low_stock_limit = low_stock_limit
 
     def is_low_stock(self):
-        """TODO: write your own docstring."""
-        # TODO: return True or False. Your stakeholder didn't say what
-        # "low" means, so decide, and write down the assumption in
-        # REFLECTION.md's "Assumptions" section.
-        pass
+        """Checks whether the item quantity is at or below the low-stock limit."""
+        return self.quantity <= self.low_stock_limit
 
 
 def read_batch_file(filepath):
