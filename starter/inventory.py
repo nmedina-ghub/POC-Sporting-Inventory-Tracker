@@ -34,15 +34,11 @@ class SportsInventoryItem:
 
 
 def read_batch_file(filepath):
-    """
-    Read the batch file at `filepath` and return a list of its lines
-    (strings), unchanged. Deciding whether a line is usable happens in
-    validate_line(), not here. Use this docstring as the model for the
-    ones you write below: what the function does, what it takes, and what
-    it returns.
-    """
-    # TODO: implement
-    pass
+    """Reads the batch file and returns its lines unchanged as a list."""
+    with open(filepath, "r") as file:
+        lines = file.readlines()
+
+    return lines
 
 
 def validate_line(line):
