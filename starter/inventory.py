@@ -14,17 +14,23 @@ import json
 class SportsInventoryItem:
     """Represents one item in a sporting goods inventory. Tracks the product name, quantity, category, and low-stock limit."""
 
-    def __init__(self, name, quantity, category, low_stock_limit):
+    def __init__(self, name, quantity, category, low_stock_limit=10):
         self.name = name
         self.quantity = quantity
         self.category = category
         self.low_stock_limit = low_stock_limit
 
     def is_low_stock(self):
-        """Checks whether the item quantity is below 10."""
-        return self.quantity < 10
+        """Checks whether the item quantity is below low_stock_limit."""
+        return self.quantity < self.low_stock_limit
 
-
+# Tested class with two different objects:
+#item1 = SportsInventoryItem("Running Shoes (M)", 48, "Footwear")
+#item2 = SportsInventoryItem("Yoga Mats", 9, "Equipment")
+#print(item1.name, item1.quantity, item1.category)
+#print("Low stock:", item1.is_low_stock())
+#print(item2.name, item2.quantity, item2.category)
+#print("Low stock:", item2.is_low_stock())
 
 
 def read_batch_file(filepath):
