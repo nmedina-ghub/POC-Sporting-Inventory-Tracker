@@ -44,7 +44,7 @@
 > variable with the same name somewhere else in the script? What would
 > break if every variable were visible everywhere?
 
-_TODO_
+A variable created inside a function is local to the function so it doesn't change a variable outside of it. This makes sure fuctions dont change other parts of your code. If variables were visible everywhere you would overwrite other processes and end up with dysfunctional results or errors.
 
 ## Search complexity: linear scan vs. dict lookup
 
