@@ -17,13 +17,13 @@
 > would you check it?
 
 1. Assumption 1
-   - **Question:** _TODO_
-   - **Assumption:** _TODO_
-   - **Risk:** _TODO_
+   - Does the inventory need to update when a customer purchases an item?
+   - The quantity should decrease when an item is sold.
+   - Inventory numbers could become inaccurate if sales aren't recorded.
 2. Assumption 2
-   - **Question:** _TODO_
-   - **Assumption:** _TODO_
-   - **Risk:** _TODO_
+   - How many products will the system track?
+   - Each product and size will have its own inventory record.
+   - Inventory could become confusing if products are entered incorrectly.
 
 ## The 3+ edge cases you found and handled
 
