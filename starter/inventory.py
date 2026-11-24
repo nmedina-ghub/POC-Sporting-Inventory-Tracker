@@ -21,8 +21,10 @@ class SportsInventoryItem:
         self.low_stock_limit = low_stock_limit
 
     def is_low_stock(self):
-        """Checks whether the item quantity is at or below the low-stock limit."""
-        return self.quantity <= self.low_stock_limit
+        """Checks whether the item quantity is below 10."""
+        return self.quantity < 10
+
+
 
 
 def read_batch_file(filepath):
