@@ -22,6 +22,7 @@ class SportsInventoryItem:
 
     def is_low_stock(self):
         """Checks whether the item quantity is below low_stock_limit."""
+        
         return self.quantity < self.low_stock_limit
 
 # Tested class with two different objects:
@@ -35,6 +36,7 @@ class SportsInventoryItem:
 
 def read_batch_file(filepath):
     """Reads the batch file and returns its lines unchanged as a list."""
+    
     with open(filepath, "r") as file:
         lines = file.readlines()
 
@@ -42,14 +44,49 @@ def read_batch_file(filepath):
 
 
 def validate_line(line):
-    """TODO: write your own docstring. What makes an ADD, REMOVE, or
-    SEARCH line valid? What do you return for a valid line, and what for
-    an invalid one?"""
-    # TODO: implement. One choice worth making on purpose: a quantity can
-    # be present but not a number ("five"). Wrap int(quantity) in a
-    # try/except ValueError. That asks Python "did this work?" instead
-    # of trying to predict every way it could fail.
-    pass
+    """Checks whether an ADD, REMOVE, or SEARCH line has the correct format and required fields, returning True if valid and False if invalid."""
+
+    parts = line.strip().split(",")
+    command = parts[0].strip().upper()
+
+    if command == "ADD":
+        if len(parts) != 4:
+            return False
+
+        if not parts[1].strip() or not parts[3].strip():
+            return False
+
+        try:
+            int(parts[2].strip())
+        except ValueError:
+            return False
+
+        return True
+
+    elif command == "REMOVE":
+        if len(parts) != 3:
+            return False
+
+        if not parts[1].strip():
+            return False
+
+        try:
+            int(parts[2].strip())
+        except ValueError:
+            return False
+
+        return True
+
+    elif command == "SEARCH":
+        if len(parts) != 2:
+            return False
+
+        if not parts[1].strip():
+            return False
+
+        return True
+
+    return False
 
 
 def process_transactions(lines):
