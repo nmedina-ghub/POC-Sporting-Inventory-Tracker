@@ -275,9 +275,13 @@ def find_item(items, name):
 
     return None
 
-lines = read_batch_file("data/athletic_transactions.txt")
+print("\n========== TRANSACTION PROCESSING ==========")
 
+lines = read_batch_file("data/athletic_transactions.txt")
 inventory = process_transactions(lines)
+
+
+print("\n========== FINAL INVENTORY ==========")
 
 print_summary(inventory)
 
