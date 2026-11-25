@@ -249,7 +249,9 @@ def process_transactions(lines):
 
                 item = find_item(inventory, name)
 
-                if not item:
+                if item:
+                    print(f"Found: {item.name} | Quantity: {item.quantity} | Category: {item.category}")
+                else:
                     print(f"Skipping SEARCH: {name} does not exist")
 
             else:
@@ -272,6 +274,12 @@ def find_item(items, name):
             return item
 
     return None
+
+lines = read_batch_file("data/athletic_transactions.txt")
+
+inventory = process_transactions(lines)
+
+print_summary(inventory)
 
 # Temporary test for process_transactions:
 #test_lines = [
