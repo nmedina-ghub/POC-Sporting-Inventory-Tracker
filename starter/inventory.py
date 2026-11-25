@@ -43,63 +43,116 @@ def read_batch_file(filepath):
     return lines
 
 
-def validate_line(line):
-    """Checks whether an ADD, REMOVE, or SEARCH line has the correct format and required fields, returning True if valid and False if invalid."""
+def validate_line(lines):
+    """Checks transaction formatting and verifies inventory availability for ADD, REMOVE, and SEARCH lines."""
 
-    parts = line.strip().split(",")
-    command = parts[0].strip().upper()
+    inventory = {}
 
-    if command == "ADD":
-        if len(parts) != 4:
-            return False
+    for row_number, line in enumerate(lines, start=1):
+        parts = line.strip().split(",")
+        command = parts[0].strip().upper()
 
-        if not parts[1].strip() or not parts[3].strip():
-            return False
+        valid = True
+        reason = ""
+        quantity = None
 
-        try:
-            quantity = int(parts[2].strip())
-        except ValueError:
-            return False
-        if quantity <= 0:
-            return False
-        
-        return True
+        # Check ADD formatting
+        if command == "ADD":
+            if len(parts) != 4:
+                valid = False
+                reason = "Incorrect number of fields"
 
-    elif command == "REMOVE":
-        if len(parts) != 3:
-            return False
+            elif not parts[1].strip() or not parts[3].strip():
+                valid = False
+                reason = "Missing item name or category"
 
-        if not parts[1].strip():
-            return False
+            else:
+                try:
+                    quantity = int(parts[2].strip())
 
-        try:
-            quantity = int(parts[2].strip())
-        except ValueError:
-            return False
+                    if quantity <= 0:
+                        valid = False
+                        reason = "Quantity must be positive"
 
-        if quantity <= 0:
-            return False
+                except ValueError:
+                    valid = False
+                    reason = "Quantity must be a number"
 
-        return True
+        # Check REMOVE formatting
+        elif command == "REMOVE":
+            if len(parts) != 3:
+                valid = False
+                reason = "Incorrect number of fields"
 
-    elif command == "SEARCH":
-        if len(parts) != 2:
-            return False
+            elif not parts[1].strip():
+                valid = False
+                reason = "Missing item name"
 
-        if not parts[1].strip():
-            return False
+            else:
+                try:
+                    quantity = int(parts[2].strip())
 
-        return True
+                    if quantity <= 0:
+                        valid = False
+                        reason = "Quantity must be positive"
 
-    return False
+                except ValueError:
+                    valid = False
+                    reason = "Quantity must be a number"
+
+        # Check SEARCH formatting
+        elif command == "SEARCH":
+            if len(parts) != 2:
+                valid = False
+                reason = "Incorrect number of fields"
+
+            elif not parts[1].strip():
+                valid = False
+                reason = "Missing item name"
+
+        # Reject unknown commands
+        else:
+            valid = False
+            reason = "Invalid command"
+
+        # Check inventory only if the formatting is valid
+        if valid:
+            name = parts[1].strip().lower()
+
+            # ADD items to inventory
+            if command == "ADD":
+                if name not in inventory:
+                    inventory[name] = 0
+
+                inventory[name] += quantity
+
+            # Check REMOVE items from inventory
+            elif command == "REMOVE":
+                if name not in inventory:
+                    valid = False
+                    reason = "Item does not exist"
+
+                elif inventory[name] < quantity:
+                    valid = False
+                    reason = "Not enough stock"
+
+                else:
+                    inventory[name] -= quantity
+
+        # Print the final result for each row
+        print(
+            "Row", row_number,
+            "|", valid,
+            "|", reason,
+            "|", line.strip()
+        )
 
 filepath = "data/athletic_transactions.txt"
 
 lines = read_batch_file(filepath)
 
-for row_number, line in enumerate(lines, start=1):
-    result = validate_line(line)
-    print("Row", row_number, "|", result, "|", line.strip())
+print("\n--- VALIDATION RESULTS ---")
+validate_line(lines)
 
 #test_lines = [
 #    "ADD,Basketballs,0,Equipment",
