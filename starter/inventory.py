@@ -113,10 +113,10 @@ def validate_line(lines):
                 valid = False
                 reason = "Missing item name"
 
-        # Reject unknown commands
+        # Reject unknown entries
         else:
             valid = False
-            reason = "Invalid command"
+            reason = "Invalid entry"
 
         # Check inventory only if the formatting is valid
         if valid:
@@ -200,18 +200,99 @@ validate_line(lines)
 
 
 def process_transactions(lines):
-    """TODO: write your own docstring."""
-    # TODO: implement. Loop over the lines, apply each valid one to your
-    # collection of items, and print a specific message for each line
-    # you skip. Return the collection at the end. The full inventory
-    # printout is print_summary's job, not this function's.
-    pass
+    """Processes valid transactions and updates the inventory."""
+
+    inventory = []
+
+    for line in lines:
+        parts = line.strip().split(",")
+
+        # Skip blank lines
+        if not line.strip():
+            print("Skipping blank line")
+            continue
+
+        command = parts[0].strip().upper()
+
+        try:
+            # ADD items
+            if command == "ADD":
+                name = parts[1].strip()
+                quantity = int(parts[2].strip())
+                category = parts[3].strip()
+
+                item = find_item(inventory, name)
+
+                if item:
+                    item.quantity += quantity
+                else:
+                    inventory.append(SportsInventoryItem(name, quantity, category))
+
+            # REMOVE items
+            elif command == "REMOVE":
+                name = parts[1].strip()
+                quantity = int(parts[2].strip())
+
+                item = find_item(inventory, name)
+
+                if item:
+                    if item.quantity >= quantity:
+                        item.quantity -= quantity
+                    else:
+                        print(f"Skipping REMOVE: not enough stock for {name}")
+                else:
+                    print(f"Skipping REMOVE: {name} does not exist")
+
+            # SEARCH items
+            elif command == "SEARCH":
+                name = parts[1].strip()
+
+                item = find_item(inventory, name)
+
+                if not item:
+                    print(f"Skipping SEARCH: {name} does not exist")
+
+            else:
+                print(f"Skipping invalid command: {command}")
+
+        except ValueError:
+            print(f"Skipping transaction: quantity is not a valid number | {line.strip()}")
+
+        except IndexError:
+            print(f"Skipping transaction: missing fields | {line.strip()}")
+
+    return inventory
 
 
 def find_item(items, name):
-    """TODO: write your own docstring."""
-    # TODO: implement
-    pass
+    """Finds an inventory item by name and returns it, or None if not found."""
+
+    for item in items:
+        if item.name.lower() == name.lower():
+            return item
+
+    return None
+
+# Temporary test for process_transactions:
+#test_lines = [
+#    "ADD,Yoga Mats,10,Equipment",
+#    "ADD,Yoga Mats,5,Equipment",
+#    "ADD,Basketballs,8,Equipment",
+#    "REMOVE,Yoga Mats,3",
+#    "SEARCH,Basketballs",
+#    "REMOVE,Basketballs,99",
+#    "REMOVE,Tennis Rackets,2",
+#    "ADD,Running Shoes,five,Footwear",
+#    "ADD,Jump Ropes,5",
+#    "",
+#    "HELLO,World"
+#]
+#
+#test_inventory = process_transactions(test_lines)
+#
+#print("\n--- TEST INVENTORY RESULTS ---")
+#for item in test_inventory:
+#    print(f"{item.name}: {item.quantity} | {item.category}")
 
 
 def export_to_json(items, filepath="inventory.json"):
