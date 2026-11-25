@@ -217,6 +217,10 @@ def process_transactions(lines):
         try:
             # ADD items
             if command == "ADD":
+                if len(parts) != 4:
+                    print(f"Skipping ADD: incorrect number of fields | {line.strip()}")
+                    continue
+
                 name = parts[1].strip()
                 quantity = int(parts[2].strip())
                 category = parts[3].strip()
