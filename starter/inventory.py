@@ -15,6 +15,7 @@ class SportsInventoryItem:
     """Represents one item in a sporting goods inventory. Tracks the product name, quantity, category, and low-stock limit."""
 
     def __init__(self, name, quantity, category, low_stock_limit=10):
+        """Initializes a sports inventory item with its name, quantity, category, and low-stock limit."""
         self.name = name
         self.quantity = quantity
         self.category = category
@@ -52,6 +53,12 @@ def validate_line(lines):
     inventory = {}
 
     for row_number, line in enumerate(lines, start=1):
+
+        # Handle blank lines
+        if not line.strip():
+            print(f"Row {row_number} | False | Blank line |")
+            continue
+
         parts = line.strip().split(",")
         command = parts[0].strip().upper()
 
@@ -156,13 +163,6 @@ def validate_line(lines):
             "|", line.strip()
         )
 
-filepath = "data/athletic_transactions.txt"
-
-lines = read_batch_file(filepath)
-
-print("\n--- VALIDATION RESULTS ---")
-validate_line(lines)
-
 #Testing functions with the data file:
 #test_lines = [
 #    "ADD,Basketballs,0,Equipment",
@@ -225,6 +225,14 @@ def process_transactions(lines):
                 quantity = int(parts[2].strip())
                 category = parts[3].strip()
 
+                if not name or not category:
+                    print(f"Skipping ADD: missing name or category | {line.strip()}")
+                    continue
+
+                if quantity <= 0:
+                    print(f"Skipping ADD: quantity must be positive | {line.strip()}")
+                    continue
+
                 item = find_item(inventory, name)
 
                 if item:
@@ -234,8 +242,20 @@ def process_transactions(lines):
 
             # REMOVE items
             elif command == "REMOVE":
+                if len(parts) != 3:
+                    print(f"Skipping REMOVE: incorrect number of fields | {line.strip()}")
+                    continue
+
                 name = parts[1].strip()
                 quantity = int(parts[2].strip())
+
+                if not name:
+                    print(f"Skipping REMOVE: missing item name | {line.strip()}")
+                    continue
+
+                if quantity <= 0:
+                    print(f"Skipping REMOVE: quantity must be positive | {line.strip()}")
+                    continue
 
                 item = find_item(inventory, name)
 
@@ -249,7 +269,15 @@ def process_transactions(lines):
 
             # SEARCH items
             elif command == "SEARCH":
+                if len(parts) != 2:
+                    print(f"Skipping SEARCH: incorrect number of fields | {line.strip()}")
+                    continue
+
                 name = parts[1].strip()
+
+                if not name:
+                    print(f"Skipping SEARCH: missing item name | {line.strip()}")
+                    continue
 
                 item = find_item(inventory, name)
 
@@ -258,6 +286,7 @@ def process_transactions(lines):
                 else:
                     print(f"Skipping SEARCH: {name} does not exist")
 
+            # Invalid commands
             else:
                 print(f"Skipping invalid command: {command}")
 
@@ -278,11 +307,6 @@ def find_item(items, name):
             return item
 
     return None
-
-print("\n========== TRANSACTION PROCESSING ==========")
-
-lines = read_batch_file("data/athletic_transactions.txt")
-inventory = process_transactions(lines)
 
 # Temporary test for process_transactions:
 #test_lines = [
@@ -325,10 +349,6 @@ def export_to_json(items, filepath="inventory.json"):
 
     print(f"Inventory exported to {filepath}")
 
-print("\n========== EXPORTING INVENTORY ==========")
-
-export_to_json(inventory)
-
 def print_summary(items):
     """Prints a summary of all inventory items and their stock levels."""
 
@@ -346,11 +366,24 @@ def print_summary(items):
     print("-" * 75)
     print(f"Total unique items: {len(items)}")
 
-print("\n========== FINAL INVENTORY ==========")
+# ================= MAIN PROGRAM =================
 
+filepath = "data/athletic_transactions.txt"
+lines = read_batch_file(filepath)
+
+# Validation
+print("\n========== VALIDATION RESULTS ==========")
+validate_line(lines)
+
+# Transaction processing
+print("\n========== TRANSACTION PROCESSING ==========")
+inventory = process_transactions(lines)
+
+# Final inventory
+print("\n========== FINAL INVENTORY ==========")
 print_summary(inventory)
 
-lines = read_batch_file("data/athletic_transactions.txt")
-items = process_transactions(lines)
-print_summary(items)
-export_to_json(items)
+# Export inventory
+print("\n========== EXPORTING INVENTORY ==========")
+export_to_json(inventory)
+
