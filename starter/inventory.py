@@ -284,11 +284,6 @@ print("\n========== TRANSACTION PROCESSING ==========")
 lines = read_batch_file("data/athletic_transactions.txt")
 inventory = process_transactions(lines)
 
-
-print("\n========== FINAL INVENTORY ==========")
-
-print_summary(inventory)
-
 # Temporary test for process_transactions:
 #test_lines = [
 #    "ADD,Yoga Mats,10,Equipment",
@@ -312,18 +307,48 @@ print_summary(inventory)
 
 
 def export_to_json(items, filepath="inventory.json"):
-    """TODO: write your own docstring. json.dump can't write your objects
-    directly, so turn each one into a dict first."""
-    # TODO: implement
-    pass
+    """Exports inventory items to a JSON file."""
 
+    data = []
+
+    for item in items:
+        item_dict = {
+            "name": item.name,
+            "quantity": item.quantity,
+            "category": item.category
+        }
+
+        data.append(item_dict)
+
+    with open(filepath, "w") as file:
+        json.dump(data, file, indent=4)
+
+    print(f"Inventory exported to {filepath}")
+
+print("\n========== EXPORTING INVENTORY ==========")
+
+export_to_json(inventory)
 
 def print_summary(items):
-    """TODO: write your own docstring."""
-    # TODO: implement. This one only prints, so it doesn't need to return
-    # anything.
-    pass
+    """Prints a summary of all inventory items and their stock levels."""
 
+    print(f"{'ITEM':<30} {'QUANTITY':<10} {'CATEGORY':<15} {'STOCK STATUS'}")
+    print("-" * 75)
+
+    for item in items:
+        if item.is_low_stock():
+            status = "LOW STOCK"
+        else:
+            status = "OK"
+
+        print(f"{item.name:<30} {item.quantity:<10} {item.category:<15} {status}")
+
+    print("-" * 75)
+    print(f"Total unique items: {len(items)}")
+
+print("\n========== FINAL INVENTORY ==========")
+
+print_summary(inventory)
 
 # TODO: point this at the data file for the scenario you chose.
 lines = read_batch_file("data/____________.txt")

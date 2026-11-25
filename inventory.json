@@ -1,0 +1,132 @@
+[
+    {
+        "name": "Running Shoes (M)",
+        "quantity": 60,
+        "category": "Footwear"
+    },
+    {
+        "name": "Running Shoes (W)",
+        "quantity": 58,
+        "category": "Footwear"
+    },
+    {
+        "name": "Yoga Mats",
+        "quantity": 63,
+        "category": "Equipment"
+    },
+    {
+        "name": "Basketballs",
+        "quantity": 42,
+        "category": "Equipment"
+    },
+    {
+        "name": "Compression Socks",
+        "quantity": 47,
+        "category": "Apparel"
+    },
+    {
+        "name": "Water Bottles 32oz",
+        "quantity": 78,
+        "category": "Accessories"
+    },
+    {
+        "name": "Resistance Bands",
+        "quantity": 68,
+        "category": "Equipment"
+    },
+    {
+        "name": "Dri-Fit T-Shirts (M)",
+        "quantity": 72,
+        "category": "Apparel"
+    },
+    {
+        "name": "Dri-Fit T-Shirts (W)",
+        "quantity": 123,
+        "category": "Apparel"
+    },
+    {
+        "name": "Athletic Shorts",
+        "quantity": 0,
+        "category": "Apparel"
+    },
+    {
+        "name": "Foam Rollers",
+        "quantity": 88,
+        "category": "Equipment"
+    },
+    {
+        "name": "Jump Ropes",
+        "quantity": 65,
+        "category": "Equipment"
+    },
+    {
+        "name": "Cleats (Soccer)",
+        "quantity": 94,
+        "category": "Footwear"
+    },
+    {
+        "name": "Cleats (Football)",
+        "quantity": 90,
+        "category": "Footwear"
+    },
+    {
+        "name": "Gym Duffel Bags",
+        "quantity": 98,
+        "category": "Accessories"
+    },
+    {
+        "name": "Weightlifting Gloves",
+        "quantity": 114,
+        "category": "Accessories"
+    },
+    {
+        "name": "Ankle Braces",
+        "quantity": 1,
+        "category": "Accessories"
+    },
+    {
+        "name": "Swim Goggles",
+        "quantity": 29,
+        "category": "Equipment"
+    },
+    {
+        "name": "Tennis Rackets",
+        "quantity": 45,
+        "category": "Equipment"
+    },
+    {
+        "name": "Soccer Balls",
+        "quantity": 48,
+        "category": "Equipment"
+    },
+    {
+        "name": "Sports Headbands",
+        "quantity": 81,
+        "category": "Accessories"
+    },
+    {
+        "name": "Insulated Hoodies",
+        "quantity": 44,
+        "category": "Apparel"
+    },
+    {
+        "name": "Hand Wraps (Boxing)",
+        "quantity": 59,
+        "category": "Accessories"
+    },
+    {
+        "name": "Balance Boards",
+        "quantity": 17,
+        "category": "Equipment"
+    },
+    {
+        "name": "Cooling Towels",
+        "quantity": 86,
+        "category": "Accessories"
+    },
+    {
+        "name": "Knee Sleeves",
+        "quantity": 59,
+        "category": "Accessories"
+    }
+]
