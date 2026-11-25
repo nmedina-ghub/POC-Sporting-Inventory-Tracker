@@ -33,7 +33,8 @@ class SportsInventoryItem:
 #print(item2.name, item2.quantity, item2.category)
 #print("Low stock:", item2.is_low_stock())
 
-
+# Reads the transaction file and returns all lines as a list
+# so they can be checked individually by the validation function.
 def read_batch_file(filepath):
     """Reads the batch file and returns its lines unchanged as a list."""
     
@@ -42,7 +43,9 @@ def read_batch_file(filepath):
 
     return lines
 
-
+# Checks each transaction for formatting errors and verifies that
+# ADD, REMOVE, and SEARCH operations make sense with the current inventory.
+# Prints whether each line is valid or invalid, along with the reason.
 def validate_line(lines):
     """Checks transaction formatting and verifies inventory availability for ADD, REMOVE, and SEARCH lines."""
 
@@ -139,6 +142,12 @@ def validate_line(lines):
                 else:
                     inventory[name] -= quantity
 
+            # Check SEARCH items in inventory
+            elif command == "SEARCH":
+                if name not in inventory:
+                    valid = False
+                    reason = "Item does not exist"
+
         # Print the final result for each row
         print(
             "Row", row_number,
@@ -154,6 +163,7 @@ lines = read_batch_file(filepath)
 print("\n--- VALIDATION RESULTS ---")
 validate_line(lines)
 
+#Testing functions with the data file:
 #test_lines = [
 #    "ADD,Basketballs,0,Equipment",
 #    "ADD,Basketballs,-5,Equipment",
@@ -165,8 +175,7 @@ validate_line(lines)
 #
 #for line in test_lines:
 #    print(validate_line(line), "|", line)
-
-# Testing functions with the data file:
+#
 #filepath = "data/athletic_transactions.txt"
 #
 #lines = read_batch_file(filepath)
