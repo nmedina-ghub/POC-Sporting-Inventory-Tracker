@@ -57,10 +57,12 @@ def validate_line(line):
             return False
 
         try:
-            int(parts[2].strip())
+            quantity = int(parts[2].strip())
         except ValueError:
             return False
-
+        if quantity <= 0:
+            return False
+        
         return True
 
     elif command == "REMOVE":
@@ -71,8 +73,11 @@ def validate_line(line):
             return False
 
         try:
-            int(parts[2].strip())
+            quantity = int(parts[2].strip())
         except ValueError:
+            return False
+
+        if quantity <= 0:
             return False
 
         return True
@@ -87,6 +92,26 @@ def validate_line(line):
         return True
 
     return False
+
+filepath = "data/athletic_transactions.txt"
+
+lines = read_batch_file(filepath)
+
+for row_number, line in enumerate(lines, start=1):
+    result = validate_line(line)
+    print("Row", row_number, "|", result, "|", line.strip())
+
+#test_lines = [
+#    "ADD,Basketballs,0,Equipment",
+#    "ADD,Basketballs,-5,Equipment",
+#    "REMOVE,Basketballs,0",
+#    "REMOVE,Basketballs,-3",
+#    "ADD,Basketballs,5,Equipment",
+#    "REMOVE,Basketballs,2"
+#]
+#
+#for line in test_lines:
+#    print(validate_line(line), "|", line)
 
 # Testing functions with the data file:
 #filepath = "data/athletic_transactions.txt"
