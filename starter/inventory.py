@@ -350,8 +350,7 @@ print("\n========== FINAL INVENTORY ==========")
 
 print_summary(inventory)
 
-# TODO: point this at the data file for the scenario you chose.
-lines = read_batch_file("data/____________.txt")
+lines = read_batch_file("data/athletic_transactions.txt")
 items = process_transactions(lines)
 print_summary(items)
 export_to_json(items)
