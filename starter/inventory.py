@@ -20,20 +20,16 @@ class SportsInventoryItem:
         self.quantity = quantity
         self.category = category
         self.low_stock_limit = low_stock_limit
+# I included low_stock_limit so different inventory items can have
+# different restocking thresholds instead of using one fixed limit
+# for everything. It defaults to 10 but can be customized for
+# individual items if needed.
 
     def is_low_stock(self):
         """Checks whether the item quantity is below low_stock_limit."""
         
         return self.quantity < self.low_stock_limit
-
-# Tested class with two different objects:
-#item1 = SportsInventoryItem("Running Shoes (M)", 48, "Footwear")
-#item2 = SportsInventoryItem("Yoga Mats", 9, "Equipment")
-#print(item1.name, item1.quantity, item1.category)
-#print("Low stock:", item1.is_low_stock())
-#print(item2.name, item2.quantity, item2.category)
-#print("Low stock:", item2.is_low_stock())
-
+    
 # Reads the transaction file and returns all lines as a list
 # so they can be checked individually by the validation function.
 def read_batch_file(filepath):
@@ -163,42 +159,6 @@ def validate_line(lines):
             "|", line.strip()
         )
 
-#Testing functions with the data file:
-#test_lines = [
-#    "ADD,Basketballs,0,Equipment",
-#    "ADD,Basketballs,-5,Equipment",
-#    "REMOVE,Basketballs,0",
-#    "REMOVE,Basketballs,-3",
-#    "ADD,Basketballs,5,Equipment",
-#    "REMOVE,Basketballs,2"
-#]
-#
-#for line in test_lines:
-#    print(validate_line(line), "|", line)
-#
-#filepath = "data/athletic_transactions.txt"
-#
-#lines = read_batch_file(filepath)
-#
-#valid_count = 0
-#invalid_count = 0
-#
-#for row_number, line in enumerate(lines, start=1):
-#    result = validate_line(line)
-#
-#    if result:
-#        valid_count += 1
-#        print("Row", row_number, "| True |", line.strip())
-#    else:
-#        invalid_count += 1
-#        print("Row", row_number, "| False |", line.strip())
-#
-#print("\nSUMMARY")
-#print("Valid transactions:", valid_count)
-#print("Invalid transactions:", invalid_count)
-#print("Total transactions:", len(lines))
-
-
 def process_transactions(lines):
     """Processes valid transactions and updates the inventory."""
 
@@ -307,28 +267,6 @@ def find_item(items, name):
             return item
 
     return None
-
-# Temporary test for process_transactions:
-#test_lines = [
-#    "ADD,Yoga Mats,10,Equipment",
-#    "ADD,Yoga Mats,5,Equipment",
-#    "ADD,Basketballs,8,Equipment",
-#    "REMOVE,Yoga Mats,3",
-#    "SEARCH,Basketballs",
-#    "REMOVE,Basketballs,99",
-#    "REMOVE,Tennis Rackets,2",
-#    "ADD,Running Shoes,five,Footwear",
-#    "ADD,Jump Ropes,5",
-#    "",
-#    "HELLO,World"
-#]
-#
-#test_inventory = process_transactions(test_lines)
-#
-#print("\n--- TEST INVENTORY RESULTS ---")
-#for item in test_inventory:
-#    print(f"{item.name}: {item.quantity} | {item.category}")
-
 
 def export_to_json(items, filepath="inventory.json"):
     """Exports inventory items to a JSON file."""
